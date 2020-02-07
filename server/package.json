@@ -1,0 +1,35 @@
+{
+  "name": "prod-server",
+  "version": "1.0.0",
+  "description": "Productivity-server using node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha */**/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abhay676/productivity-app.git"
+  },
+  "author": "Abhay Goswami",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abhay676/productivity-app/issues"
+  },
+  "homepage": "https://github.com/abhay676/productivity-app#readme",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1",
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.7",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mocha": "^7.0.1",
+    "mongoose": "^5.8.11"
+  }
+}
