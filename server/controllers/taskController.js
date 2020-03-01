@@ -7,9 +7,7 @@ exports.addTask = async (req, res, next) => {
     await task.save();
     res.send(task);
   } catch (error) {
-    const e = error;
-    delete e.stack;
-    next(e);
+    next(error);
   }
 };
 
@@ -19,9 +17,7 @@ exports.updateTask = async (req, res, next) => {
     const task = await Task.findByIdAndUpdate(id, { ...req.body });
     res.send(task);
   } catch (error) {
-    const e = error;
-    delete e.stack;
-    next(e);
+    next(error);
   }
 };
 
@@ -31,8 +27,6 @@ exports.deleteTask = async (req, res, next) => {
     await Task.findByIdAndDelete(id);
     res.send({ message: "deleted successfully" });
   } catch (error) {
-    const e = error;
-    delete e.stack;
-    next(e);
+    next(error);
   }
 };

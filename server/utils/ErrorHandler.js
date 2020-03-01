@@ -1,18 +1,28 @@
-class ErrorHandler extends Error {
-  constructor(statusCode, message) {
-    super();
-    this.statusCode = statusCode;
-    this.message = message;
-  }
-}
+const { createLogger, format, transports } = require("winston");
 
-const handleError = (err, res) => {
-  const { statusCode, message } = err;
-  res.status(statusCode || 500).send({
-    status: "error",
-    statusCode,
-    message
+const {
+  combine, timestamp, label, prettyPrint,
+} = format;
+
+module.exports = function handleError(err, req, res) {
+  const logger = createLogger({
+    format: combine(
+      label({ label: "Internal error🖖" }),
+      timestamp(),
+      prettyPrint(),
+    ),
+    level: "error",
+    transports: [new transports.Console()],
   });
-};
 
-module.exports = { ErrorHandler, handleError };
+  logger.log({
+    level: "error",
+    message: `☠ ${err.message} 🌶`,
+  });
+
+  const error = {
+    status: err.status || 500,
+    msg: err.message,
+  };
+  res.send(error);
+};

@@ -9,9 +9,7 @@ exports.newProject = async (req, res, next) => {
     await project.save();
     res.send(project);
   } catch (error) {
-    const e = error;
-    delete e.stack;
-    next(e);
+    next(error);
   }
 };
 
@@ -21,9 +19,7 @@ exports.updateProject = async (req, res, next) => {
     const project = await Project.findByIdAndUpdate(id, { ...req.body });
     res.send(project);
   } catch (error) {
-    const e = error;
-    delete e.stack;
-    next(e);
+    next(error);
   }
 };
 
@@ -33,8 +29,6 @@ exports.deleteProject = async (req, res, next) => {
     await Project.findByIdAndDelete(id);
     res.send({ message: "Deleted successfully" });
   } catch (error) {
-    const e = error;
-    delete e.stack;
-    next(e);
+    next(error);
   }
 };

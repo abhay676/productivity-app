@@ -14,6 +14,9 @@ const taskController = require("../controllers/taskController");
 route.post("/login", userController.login);
 route.post("/new-user", userController.newUser);
 
+// Fetch-user
+route.get("/fetch-user/:id", Auth, userController.fetchUser);
+
 // Projects
 route.post("/add-project", Auth, projectController.newProject);
 route.put("/update-project/:id", Auth, projectController.updateProject);

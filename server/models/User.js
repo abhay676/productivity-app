@@ -9,45 +9,53 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
     },
     email: {
       type: String,
       required: true,
       trim: true,
-      unique: true
+      unique: true,
     },
     password: {
       type: String,
-      required: true
+      required: true,
     },
     token: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   {
-    timestamps: true
-  }
+    timestamps: true,
+  },
 );
 
-userSchema.pre("save", async function() {
+userSchema.virtual("projects", {
+  ref: "Project",
+  localField: "_id",
+  foreignField: "owner",
+});
+
+userSchema.pre("save", async function () {
   const user = this;
   const hashPassword = await bcrypt.hash(user.password, 8);
   user.password = hashPassword;
 });
 
 // adding JWT token
-userSchema.methods.generateToken = async function() {
+userSchema.methods.generateToken = async function () {
   const user = this;
   const token = await jwt.sign(
+    /* eslint no-underscore-dangle: 0 */
     { _id: user._id.toString() },
-    process.env.JWT_SECRET
+    process.env.JWT_SECRET,
   );
   user.token = token;
 };
 
-userSchema.statics.findByEmail = async function(email, password) {
+const User = mongoose.model("User", userSchema);
+userSchema.statics.findByEmail = async function (email, password) {
   const user = await User.findOne({ email });
   if (!user) {
     throw new ErrorHandler(404, "Email is not registered");
@@ -59,7 +67,5 @@ userSchema.statics.findByEmail = async function(email, password) {
   }
   return user;
 };
-
-const User = mongoose.model("User", userSchema);
 
 module.exports = User;
